@@ -1,0 +1,823 @@
+/* ==========================================================================
+   SMART WATER DISTRIBUTION MANAGEMENT SYSTEM
+   File: css/styles.css
+   Color Theme: Light Blue (#e3f2fd), White (#ffffff), Dark Blue (#0d47a1, #1976d2)
+   Style: Clean, Simple, College Mini-Project Friendly
+   ========================================================================== */
+
+/* 1. Global Reset & CSS Variables */
+:root {
+    --primary-dark: #0d47a1;     /* Deep municipal blue */
+    --primary-blue: #1976d2;     /* Core active blue */
+    --accent-blue: #0288d1;      /* Cyan/Ocean accent */
+    --light-blue-bg: #eef7fd;    /* Soft ice blue background */
+    --card-bg: #ffffff;          /* Clean white for cards & tables */
+    --card-border: #bbdefb;      /* Light blue border */
+    --text-dark: #1a237e;        /* Dark navy header text */
+    --text-body: #37474f;        /* Charcoal body text */
+    --text-muted: #607d8b;       /* Subtle description text */
+    --border-light: #cfd8dc;     /* Standard form borders */
+    
+    /* Semantic Status Colors */
+    --status-green: #2e7d32;     /* Working / Allocated / Resolved */
+    --status-green-bg: #e8f5e9;
+    --status-red: #c62828;       /* Failed / Disconnected / Critical */
+    --status-red-bg: #ffebee;
+    --status-orange: #ef6c00;    /* Maintenance / In Progress / Medium */
+    --status-orange-bg: #fff3e0;
+    --status-blue: #0277bd;      /* Active / Normal / Info */
+    --status-blue-bg: #e1f5fe;
+
+    --font-stack: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --shadow-soft: 0 4px 12px rgba(13, 71, 161, 0.08);
+    --shadow-hover: 0 6px 16px rgba(13, 71, 161, 0.14);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-stack);
+    background-color: var(--light-blue-bg);
+    color: var(--text-body);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 2. Top Header */
+.main-header {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary-blue));
+    color: #ffffff;
+    padding: 16px 24px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    font-size: 2rem;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 6px 10px;
+    border-radius: var(--radius-md);
+}
+
+.logo-text h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.logo-text p {
+    font-size: 0.85rem;
+    color: #bbdefb;
+    margin: 0;
+}
+
+.user-badge-header {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 3. Navigation Bar */
+.navbar {
+    background-color: #ffffff;
+    border-bottom: 2px solid var(--card-border);
+    padding: 0 24px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 8px 0;
+}
+
+.nav-btn {
+    background: none;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 10px 18px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.nav-btn:hover {
+    background-color: var(--light-blue-bg);
+    color: var(--primary-dark);
+}
+
+.nav-btn.active {
+    background-color: var(--primary-blue);
+    color: #ffffff;
+}
+
+.nav-btn.logout {
+    margin-left: auto;
+    color: var(--status-red);
+}
+
+.nav-btn.logout:hover {
+    background-color: var(--status-red-bg);
+    color: var(--status-red);
+}
+
+/* 4. Page Layout Container */
+.page-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 24px auto;
+    padding: 0 20px;
+    flex: 1;
+}
+
+/* 5. Cards & Containers */
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-soft);
+}
+
+.card-title {
+    font-size: 1.25rem;
+    color: var(--primary-dark);
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1.5px solid var(--card-border);
+    padding-bottom: 10px;
+}
+
+/* 6. Metric Cards Grid */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.metric-card {
+    background: #ffffff;
+    border: 1px solid var(--card-border);
+    border-left: 5px solid var(--primary-blue);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.metric-card.warning {
+    border-left-color: var(--status-orange);
+}
+
+.metric-card.danger {
+    border-left-color: var(--status-red);
+}
+
+.metric-card.success {
+    border-left-color: var(--status-green);
+}
+
+.metric-icon {
+    font-size: 2.2rem;
+    background: var(--light-blue-bg);
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+}
+
+.metric-info h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.metric-info .value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    line-height: 1.2;
+}
+
+/* 7. Forms Styling */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 14px;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+}
+
+.form-group label .required {
+    color: var(--status-red);
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--text-body);
+    background-color: #ffffff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.15);
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 85px;
+}
+
+/* 8. Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: inherit;
+    border-radius: var(--radius-sm);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--primary-blue);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    box-shadow: 0 2px 8px rgba(13, 71, 161, 0.3);
+}
+
+.btn-secondary {
+    background-color: #eceff1;
+    color: var(--text-body);
+}
+
+.btn-secondary:hover {
+    background-color: #cfd8dc;
+}
+
+.btn-success {
+    background-color: var(--status-green);
+    color: #ffffff;
+}
+
+.btn-success:hover {
+    background-color: #1b5e20;
+}
+
+.btn-danger {
+    background-color: var(--status-red);
+    color: #ffffff;
+}
+
+.btn-danger:hover {
+    background-color: #b71c1c;
+}
+
+.btn-warning {
+    background-color: var(--status-orange);
+    color: #ffffff;
+}
+
+.btn-warning:hover {
+    background-color: #e65100;
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.82rem;
+}
+
+/* 9. Tables */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--card-border);
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+.custom-table th {
+    background-color: #e3f2fd;
+    color: var(--primary-dark);
+    font-weight: 700;
+    padding: 12px 14px;
+    border-bottom: 2px solid var(--card-border);
+    white-space: nowrap;
+}
+
+.custom-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #eceff1;
+    vertical-align: middle;
+}
+
+.custom-table tr:hover {
+    background-color: #f7fbff;
+}
+
+/* 10. Status Badges */
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+.badge-working,
+.badge-allocated,
+.badge-resolved,
+.badge-active {
+    background-color: var(--status-green-bg);
+    color: var(--status-green);
+    border: 1px solid #c8e6c9;
+}
+
+.badge-pending,
+.badge-maintenance,
+.badge-in-progress,
+.badge-partially-allocated {
+    background-color: var(--status-orange-bg);
+    color: var(--status-orange);
+    border: 1px solid #ffe0b2;
+}
+
+.badge-failed,
+.badge-critical,
+.badge-disconnected,
+.badge-not-allocated {
+    background-color: var(--status-red-bg);
+    color: var(--status-red);
+    border: 1px solid #ffcdd2;
+}
+
+.badge-high {
+    background-color: #fff8e1;
+    color: #f57f17;
+    border: 1px solid #ffecb3;
+}
+
+.badge-medium {
+    background-color: #e1f5fe;
+    color: #0288d1;
+    border: 1px solid #b3e5fc;
+}
+
+.badge-low,
+.badge-very-low {
+    background-color: #f5f5f5;
+    color: #616161;
+    border: 1px solid #e0e0e0;
+}
+
+/* 11. Alerts / Messages */
+.alert {
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+}
+
+.alert-success {
+    background-color: var(--status-green-bg);
+    color: #1b5e20;
+    border-left: 5px solid var(--status-green);
+}
+
+.alert-warning {
+    background-color: var(--status-orange-bg);
+    color: #e65100;
+    border-left: 5px solid var(--status-orange);
+}
+
+.alert-danger {
+    background-color: var(--status-red-bg);
+    color: #b71c1c;
+    border-left: 5px solid var(--status-red);
+}
+
+.alert-info {
+    background-color: var(--status-blue-bg);
+    color: #01579b;
+    border-left: 5px solid var(--primary-blue);
+}
+
+/* 12. Filter & Search Bar */
+.filter-bar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 16px;
+    background: #f8fbfe;
+    padding: 12px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--card-border);
+}
+
+.filter-bar .search-input {
+    flex: 1;
+    min-width: 200px;
+}
+
+/* 13. Water Network Visualizer Container */
+.network-container {
+    background: #fbfdff;
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.network-legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 10px 14px;
+    background: #ffffff;
+    border-radius: var(--radius-sm);
+    border: 1px solid #cfd8dc;
+    margin-bottom: 16px;
+    font-size: 0.88rem;
+    align-items: center;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-color-box {
+    width: 24px;
+    height: 6px;
+    border-radius: 3px;
+}
+
+.legend-working { background-color: var(--status-green); }
+.legend-failed { background-color: var(--status-red); }
+.legend-maintenance { background-color: var(--status-orange); }
+
+/* SVG Graph styling */
+.svg-network-chart {
+    width: 100%;
+    height: auto;
+    min-height: 380px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: var(--radius-sm);
+}
+
+/* 14. Priority Stages Comparison Card */
+.stages-card {
+    background: linear-gradient(180deg, #ffffff, #f7faff);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    margin-top: 20px;
+}
+
+.stage-step {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    margin-bottom: 6px;
+    background: #ffffff;
+    border-radius: var(--radius-sm);
+    border-left: 4px solid var(--primary-blue);
+    font-size: 0.88rem;
+    gap: 12px;
+}
+
+.stage-step.critical { border-left-color: var(--status-red); }
+.stage-step.high { border-left-color: #f57f17; }
+.stage-step.medium { border-left-color: #0288d1; }
+.stage-step.low { border-left-color: #78909c; }
+.stage-step.very-low { border-left-color: #9e9e9e; }
+
+/* 15. Login Pages Specific Styles */
+.login-body {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+}
+
+.login-card {
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 30px rgba(13, 71, 161, 0.15);
+    border: 1px solid var(--card-border);
+    max-width: 440px;
+    width: 100%;
+    padding: 36px 30px;
+    text-align: center;
+}
+
+.login-card h2 {
+    color: var(--primary-dark);
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+}
+
+.login-card .subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 24px;
+}
+
+.login-selection-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.selection-card {
+    background: #ffffff;
+    border: 2px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: 32px 24px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.selection-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-hover);
+}
+
+.selection-icon {
+    font-size: 3rem;
+    margin-bottom: 14px;
+}
+
+.selection-card h3 {
+    color: var(--primary-dark);
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.selection-card p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    flex: 1;
+}
+
+/* 16. Modal Dialogs */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 16px;
+}
+
+.modal-content {
+    background: #ffffff;
+    border-radius: var(--radius-md);
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+}
+
+.modal-close-btn {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+/* 17. Reservoir Water Level Visual Gauge */
+.water-gauge-container {
+    background: #e0f2fe;
+    border: 1px solid #90caf9;
+    border-radius: var(--radius-sm);
+    height: 24px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    margin: 8px 0;
+}
+
+.water-gauge-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #42a5f5, #1976d2);
+    transition: width 0.4s ease;
+    border-radius: var(--radius-sm);
+}
+
+.water-gauge-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #0d47a1;
+}
+
+/* 18. Footer */
+.main-footer {
+    background: #ffffff;
+    border-top: 1px solid var(--card-border);
+    padding: 16px 24px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: auto;
+}
+
+.footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: var(--primary-blue);
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-family: inherit;
+}
+
+.btn-link:hover {
+    color: var(--primary-dark);
+}
+
+/* 19. Responsive Adjustments */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .nav-container {
+        justify-content: flex-start;
+    }
+    
+    .nav-btn.logout {
+        margin-left: 0;
+    }
+    
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-inner {
+        flex-direction: column;
+        text-align: center;
+    }
+}

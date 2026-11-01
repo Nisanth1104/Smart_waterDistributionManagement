@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Water Distribution Management System</title>
+    <!-- Basic CSS Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="login-body">
+
+    <!-- Top Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <span class="logo-icon">💧</span>
+                <div class="logo-text">
+                    <h1>Smart Water Distribution Management System</h1>
+                    <p>Municipal Water Grid Portal</p>
+                </div>
+            </div>
+            <div>
+                <span class="user-badge-header">🚰 Municipal Water Grid Portal</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content: Login Selection Cards -->
+    <main class="login-wrapper">
+        <div style="width: 100%; max-width: 860px; margin: auto;">
+            
+            <!-- Description Banner -->
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h2 style="color: var(--primary-dark); font-size: 1.8rem; margin-bottom: 10px;">
+                    Welcome to Smart Water Distribution
+                </h2>
+                <p style="font-size: 1.05rem; color: var(--text-body); max-width: 700px; margin: 0 auto; line-height: 1.5;">
+                    A system to manage water demand, reservoir supply, pipeline connectivity, complaints, and priority-based water allocation.
+                </p>
+            </div>
+
+            <!-- Two Login Selection Options in Center -->
+            <div class="login-selection-container">
+                
+                <!-- Option 1: User Login Card -->
+                <div class="selection-card">
+                    <div>
+                        <div class="selection-icon">👤</div>
+                        <h3>User Login</h3>
+                        <p>
+                            For citizens, residential societies, and institutional consumers to request daily water demand and report pipeline leakage or supply complaints.
+                        </p>
+                        <div style="background: #e3f2fd; border-radius: 6px; padding: 10px; font-size: 0.82rem; color: #0d47a1; margin-bottom: 18px;">
+                            <strong>Demo Credentials:</strong><br>
+                            Username: <code>user</code> | Password: <code>user123</code>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="user-login.html" class="btn btn-primary" style="width: 100%;">
+                            Proceed to User Login &rarr;
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Option 2: Admin Login Card -->
+                <div class="selection-card">
+                    <div>
+                        <div class="selection-icon">🛠️</div>
+                        <h3>Admin Login</h3>
+                        <p>
+                            For municipal water engineers to control reservoirs, inspect pipeline flow graph, manage FIFO maintenance queue, and run priority water allocation.
+                        </p>
+                        <div style="background: #e3f2fd; border-radius: 6px; padding: 10px; font-size: 0.82rem; color: #0d47a1; margin-bottom: 18px;">
+                            <strong>Demo Credentials:</strong><br>
+                            Username: <code>admin</code> | Password: <code>admin123</code>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="admin-login.html" class="btn btn-primary" style="width: 100%;">
+                            Proceed to Admin Login &rarr;
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Project Footer -->
+    <footer class="main-footer">
+        <div class="footer-inner">
+            <span>Smart Water Distribution Management System</span>
+            <div>
+                <button type="button" class="btn-link" onclick="resetDemoData()">
+                    🔄 Restore Default Sample Data
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Data and Helper Script -->
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        // Function to reset all sample data to defaults (Syncs both Java backend and LocalStorage)
+        async function resetDemoData() {
+            if (confirm("Reset all project data (reservoirs, pipelines, demands, complaints) to initial demonstration values?")) {
+                await BackendApi.resetAllData();
+                DataStore.resetAll();
+                alert("Default sample data restored successfully!");
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
