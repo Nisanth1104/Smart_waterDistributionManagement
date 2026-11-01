@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Smart Water Distribution</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <span class="logo-icon">💧</span>
+                <div class="logo-text">
+                    <h1>Smart Water Distribution Management System</h1>
+                    <p>Resident &amp; Consumer Portal</p>
+                </div>
+            </div>
+            <div class="user-badge-header">
+                <span id="userDisplayName">👤 Logged in as: Resident User</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <button class="nav-btn active" id="nav-btn-dashboard" onclick="showUserSection('dashboard')">
+                📊 Dashboard
+            </button>
+            <button class="nav-btn" id="nav-btn-demand" onclick="showUserSection('demand')">
+                🚰 Add Demand Water
+            </button>
+            <button class="nav-btn" id="nav-btn-complaint" onclick="showUserSection('complaint')">
+                📝 Complaint
+            </button>
+            <button class="nav-btn logout" onclick="handleLogout()">
+                🚪 Logout
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Page Container -->
+    <main class="page-container">
+
+        <!-- ==========================================
+             SECTION 1: DASHBOARD HOME
+             ========================================== -->
+        <section id="section-dashboard" class="user-section">
+            
+            <!-- Welcome Alert Banner -->
+            <div class="alert alert-info">
+                <span>👋 <strong>Welcome back!</strong> Monitor your area's water demand, real-time allocation status, and active maintenance complaints.</span>
+            </div>
+
+            <!-- Information Cards (3 Required Metrics) -->
+            <div class="metrics-grid">
+                
+                <!-- Card 1: Current Water Demand -->
+                <div class="metric-card">
+                    <div class="metric-icon">💧</div>
+                    <div class="metric-info">
+                        <h3>Current Water Demand</h3>
+                        <div class="value" id="userTotalDemand">0 L</div>
+                        <small style="color: var(--text-muted);">Active daily requirement</small>
+                    </div>
+                </div>
+
+                <!-- Card 2: Latest Request Status -->
+                <div class="metric-card warning" id="metricCardStatus">
+                    <div class="metric-icon">📋</div>
+                    <div class="metric-info">
+                        <h3>Latest Request Status</h3>
+                        <div class="value" id="userLatestStatus" style="font-size: 1.25rem;">Pending</div>
+                        <small style="color: var(--text-muted);" id="userLatestReqId">No active requests</small>
+                    </div>
+                </div>
+
+                <!-- Card 3: Open Complaints -->
+                <div class="metric-card danger">
+                    <div class="metric-icon">⚠️</div>
+                    <div class="metric-info">
+                        <h3>Open Complaints</h3>
+                        <div class="value" id="userOpenComplaints">0</div>
+                        <small style="color: var(--text-muted);">Awaiting municipal resolution</small>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Quick Action Links -->
+            <div style="display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap;">
+                <button class="btn btn-primary" onclick="showUserSection('demand')">
+                    ➕ Submit New Water Demand Request
+                </button>
+                <button class="btn btn-secondary" onclick="showUserSection('complaint')">
+                    📢 File a Pipeline or Supply Complaint
+                </button>
+            </div>
+
+            <!-- Recent Requests Table Preview -->
+            <div class="card">
+                <div class="card-title">
+                    <span>🚰 My Recent Water Demand Requests</span>
+                    <button class="btn btn-sm btn-secondary" onclick="showUserSection('demand')">View All</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="custom-table" id="dashboardRequestsTable">
+                        <thead>
+                            <tr>
+                                <th>Request ID</th>
+                                <th>Date</th>
+                                <th>Demand Area</th>
+                                <th>Quantity (Litres)</th>
+                                <th>Priority Level</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashboardRequestsTbody">
+                            <!-- Populated dynamically by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Recent Complaints Table Preview -->
+            <div class="card">
+                <div class="card-title">
+                    <span>📝 My Recent Complaints</span>
+                    <button class="btn btn-sm btn-secondary" onclick="showUserSection('complaint')">View All</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="custom-table" id="dashboardComplaintsTable">
+                        <thead>
+                            <tr>
+                                <th>Complaint ID</th>
+                                <th>Date</th>
+                                <th>Area</th>
+                                <th>Complaint Type</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashboardComplaintsTbody">
+                            <!-- Populated dynamically by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==========================================
+             SECTION 2: ADD DEMAND WATER
+             ========================================== -->
+        <section id="section-demand" class="user-section" style="display: none;">
+            
+            <div class="card">
+                <div class="card-title">
+                    <span>🚰 Add Water Demand Request</span>
+                    <span style="font-size: 0.85rem; font-weight: normal; color: var(--text-muted);">
+                        Submit daily or emergency water quantity for your area
+                    </span>
+                </div>
+
+                <!-- Submission Status Alert -->
+                <div id="demandAlert" style="display: none;" class="alert"></div>
+
+                <!-- Water Demand Request Form -->
+                <form id="demandRequestForm" onsubmit="handleDemandSubmit(event)">
+                    <div class="form-grid">
+                        
+                        <!-- User Name -->
+                        <div class="form-group">
+                            <label for="reqUserName">User Name <span class="required">*</span></label>
+                            <input type="text" id="reqUserName" class="form-control" placeholder="Enter your full name" required value="Greenfield Resident">
+                        </div>
+
+                        <!-- Demand Area Dropdown -->
+                        <div class="form-group">
+                            <label for="reqDemandArea">Demand Area <span class="required">*</span></label>
+                            <select id="reqDemandArea" class="form-control" required>
+                                <!-- Populated from Demand Areas in localStorage -->
+                            </select>
+                        </div>
+
+                        <!-- Date -->
+                        <div class="form-group">
+                            <label for="reqDate">Request Date <span class="required">*</span></label>
+                            <input type="date" id="reqDate" class="form-control" required>
+                        </div>
+
+                        <!-- Water Quantity -->
+                        <div class="form-group">
+                            <label for="reqQuantity">Required Water Quantity (Litres) <span class="required">*</span></label>
+                            <input type="number" id="reqQuantity" class="form-control" min="500" max="100000" step="500" placeholder="e.g. 15000" required>
+                            <small style="color: var(--text-muted);">Enter value in litres (min 500 L)</small>
+                        </div>
+
+                        <!-- Priority Level -->
+                        <div class="form-group">
+                            <label for="reqPriority">Priority Level <span class="required">*</span></label>
+                            <select id="reqPriority" class="form-control" required>
+                                <option value="Critical">Critical (Hospitals, Emergency Centres)</option>
+                                <option value="High" selected>High (Schools, High-Density Society)</option>
+                                <option value="Medium">Medium (Standard Residential Cluster)</option>
+                                <option value="Low">Low (Gated Community, Perimeter)</option>
+                                <option value="Very Low">Very Low (Parks, Recreational)</option>
+                            </select>
+                        </div>
+
+                        <!-- Additional Notes -->
+                        <div class="form-group full-width">
+                            <label for="reqNotes">Additional Notes / Reason</label>
+                            <textarea id="reqNotes" class="form-control" placeholder="Specify requirements (e.g. morning tank refill, booster supply, or emergency hospital requirement)"></textarea>
+                        </div>
+
+                    </div>
+
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <button type="submit" class="btn btn-primary">
+                            💧 Submit Demand Request
+                        </button>
+                        <button type="reset" class="btn btn-secondary">
+                            Reset Form
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+
+            <!-- Submitted Requests Table Below Form -->
+            <div class="card">
+                <div class="card-title">
+                    <span>📋 My Submitted Water Demands</span>
+                    <span style="font-size: 0.85rem; font-weight: normal; color: var(--text-muted);">
+                        Real-time status updated by municipal allocation algorithm
+                    </span>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="custom-table" id="allRequestsTable">
+                        <thead>
+                            <tr>
+                                <th>Request ID</th>
+                                <th>Date</th>
+                                <th>Demand Area</th>
+                                <th>Quantity (Litres)</th>
+                                <th>Priority</th>
+                                <th>Notes</th>
+                                <th>Allocation Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="allRequestsTbody">
+                            <!-- Populated dynamically from localStorage -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==========================================
+             SECTION 3: COMPLAINT SUBMISSION
+             ========================================== -->
+        <section id="section-complaint" class="user-section" style="display: none;">
+            
+            <div class="card">
+                <div class="card-title">
+                    <span>📢 File a Water Supply / Pipeline Complaint</span>
+                    <span style="font-size: 0.85rem; font-weight: normal; color: var(--text-muted);">
+                        Report leakages, low pressure, or zero water supply to municipal engineers
+                    </span>
+                </div>
+
+                <!-- Complaint Status Alert -->
+                <div id="complaintAlert" style="display: none;" class="alert"></div>
+
+                <!-- Complaint Form -->
+                <form id="complaintForm" onsubmit="handleComplaintSubmit(event)">
+                    <div class="form-grid">
+                        
+                        <!-- Auto-generated Complaint ID -->
+                        <div class="form-group">
+                            <label for="cmpId">Complaint ID (Auto-Generated)</label>
+                            <input type="text" id="cmpId" class="form-control" readonly style="background-color: #f5f5f5; font-weight: bold; color: var(--primary-dark);">
+                        </div>
+
+                        <!-- User Name -->
+                        <div class="form-group">
+                            <label for="cmpUserName">User Name <span class="required">*</span></label>
+                            <input type="text" id="cmpUserName" class="form-control" placeholder="Enter reporter's name" required value="Greenfield Resident">
+                        </div>
+
+                        <!-- Demand Area -->
+                        <div class="form-group">
+                            <label for="cmpArea">Demand Area <span class="required">*</span></label>
+                            <select id="cmpArea" class="form-control" required>
+                                <!-- Populated dynamically from areas in localStorage -->
+                            </select>
+                        </div>
+
+                        <!-- Complaint Type -->
+                        <div class="form-group">
+                            <label for="cmpType">Complaint Type <span class="required">*</span></label>
+                            <select id="cmpType" class="form-control" required>
+                                <option value="Water Not Supplied">Water Not Supplied</option>
+                                <option value="Low Water Supply">Low Water Supply / Pressure</option>
+                                <option value="Pipeline Leakage">Pipeline Leakage</option>
+                                <option value="Pipeline Damage">Pipeline Damage / Rupture</option>
+                                <option value="Other">Other Issues</option>
+                            </select>
+                        </div>
+
+                        <!-- Date -->
+                        <div class="form-group">
+                            <label for="cmpDate">Complaint Date <span class="required">*</span></label>
+                            <input type="date" id="cmpDate" class="form-control" required>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="form-group full-width">
+                            <label for="cmpDesc">Complaint Description <span class="required">*</span></label>
+                            <textarea id="cmpDesc" class="form-control" placeholder="Describe the water supply or pipeline issue in detail (e.g. location of visible leak, time since water stopped)" required></textarea>
+                        </div>
+
+                    </div>
+
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <button type="submit" class="btn btn-danger">
+                            ⚠️ Submit Complaint
+                        </button>
+                        <button type="reset" class="btn btn-secondary">
+                            Reset Form
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+
+            <!-- Complaints Table with Status -->
+            <div class="card">
+                <div class="card-title">
+                    <span>📑 Complaint Tracking &amp; Status</span>
+                    <span style="font-size: 0.85rem; font-weight: normal; color: var(--text-muted);">
+                        Monitored by Admin Maintenance Queue
+                    </span>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="custom-table" id="allComplaintsTable">
+                        <thead>
+                            <tr>
+                                <th>Complaint ID</th>
+                                <th>Date</th>
+                                <th>Area</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="allComplaintsTbody">
+                            <!-- Populated dynamically from localStorage -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-inner">
+            <span>Smart Water Distribution Management System &bull; User Dashboard</span>
+            <button type="button" class="btn-link" onclick="handleLogout()">
+                🚪 Log Out of Session
+            </button>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/user-dashboard.js"></script>
+</body>
+</html>

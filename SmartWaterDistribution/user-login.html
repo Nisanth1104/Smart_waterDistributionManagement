@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login - Smart Water Distribution</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="login-body">
+
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <span class="logo-icon">💧</span>
+                <div class="logo-text">
+                    <h1>Smart Water Distribution Management System</h1>
+                    <p>Resident &amp; Consumer Portal</p>
+                </div>
+            </div>
+            <div>
+                <a href="index.html" class="nav-btn" style="color: #ffffff; background: rgba(255,255,255,0.2);">
+                    &larr; Back to Home
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Card Wrapper -->
+    <main class="login-wrapper">
+        <div class="login-card">
+            
+            <div style="font-size: 2.8rem; margin-bottom: 10px;">👤</div>
+            <h2>User Login</h2>
+            <p class="subtitle">Enter your credentials to submit water demands and report complaints</p>
+
+            <!-- Inline Alert for Errors/Success -->
+            <div id="loginAlert" style="display: none;" class="alert alert-danger"></div>
+
+            <!-- Login Form -->
+            <form id="userLoginForm" onsubmit="handleUserLogin(event)">
+                <div class="form-group" style="text-align: left;">
+                    <label for="username">Username <span class="required">*</span></label>
+                    <input type="text" id="username" class="form-control" placeholder="Enter username (e.g., user)" required autofocus>
+                </div>
+
+                <div class="form-group" style="text-align: left;">
+                    <label for="password">Password <span class="required">*</span></label>
+                    <input type="password" id="password" class="form-control" placeholder="Enter password (e.g., user123)" required>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-size: 0.85rem;">
+                    <button type="button" class="btn-link" onclick="autoFillUserCredentials()">
+                        ⚡ Auto-fill Demo Credentials
+                    </button>
+                    <span style="color: var(--text-muted);">user / user123</span>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 1rem;">
+                    Login as User &rarr;
+                </button>
+            </form>
+
+            <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--card-border); font-size: 0.88rem;">
+                <a href="index.html" style="color: var(--primary-blue); text-decoration: none; font-weight: 600;">
+                    &larr; Return to Login Selection
+                </a>
+                <span style="margin: 0 10px; color: #b0bec5;">|</span>
+                <a href="admin-login.html" style="color: var(--text-muted); text-decoration: none;">
+                    Admin Login &rarr;
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-inner" style="justify-content: center;">
+            <span>Smart Water Distribution Management System &bull; User Portal</span>
+        </div>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="js/data.js"></script>
+    <script>
+        // Auto-fill demo credentials helper
+        function autoFillUserCredentials() {
+            document.getElementById('username').value = 'user';
+            document.getElementById('password').value = 'user123';
+            const alertBox = document.getElementById('loginAlert');
+            alertBox.style.display = 'none';
+        }
+
+        // Validate user credentials and handle redirect (Calls Java Backend with fallback)
+        async function handleUserLogin(event) {
+            event.preventDefault(); // Prevent standard HTTP form post
+            
+            const usernameInput = document.getElementById('username').value.trim();
+            const passwordInput = document.getElementById('password').value;
+            const alertBox = document.getElementById('loginAlert');
+
+            alertBox.className = 'alert alert-info';
+            alertBox.textContent = 'Verifying user credentials with Java backend...';
+            alertBox.style.display = 'block';
+
+            const result = await BackendApi.login(usernameInput, passwordInput, 'user');
+
+            if (result && result.success) {
+                // Success: Save session details in sessionStorage
+                sessionStorage.setItem('swd_user_logged_in', 'true');
+                sessionStorage.setItem('swd_user_name', result.displayName || 'Resident User (Greenfield)');
+                
+                alertBox.className = 'alert alert-success';
+                alertBox.textContent = 'Login verified! Redirecting to User Dashboard...';
+                alertBox.style.display = 'block';
+
+                setTimeout(() => {
+                    window.location.href = 'user-dashboard.html';
+                }, 600);
+            } else {
+                // Error feedback
+                alertBox.className = 'alert alert-danger';
+                alertBox.textContent = 'Invalid username or password! Please check sample credentials: user / user123';
+                alertBox.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
