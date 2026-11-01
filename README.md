@@ -3,7 +3,7 @@
 
 ---
 
-## 📌 1. Project Overview & Architecture
+##  1. Project Overview & Architecture
 
 The **Smart Water Distribution Management System** models municipal water flow, demand aggregation, reservoir level monitoring, pipeline connectivity, citizen complaint handling, and automated priority-based water allocation.
 
@@ -48,7 +48,7 @@ The **Smart Water Distribution Management System** models municipal water flow, 
 
 ---
 
-## 📂 2. Project Directory Structure
+## 2. Project Directory Structure
 
 ```text
 Smart_Watermanage/
@@ -103,7 +103,7 @@ Smart_Watermanage/
 
 ---
 
-## 🚀 3. How to Compile and Run
+## 3. How to Compile and Run
 
 ### Option A: Running in an IDE (VS Code, IntelliJ IDEA, Eclipse, NetBeans)
 1. Open the project folder `Smart_Watermanage` in your IDE.
@@ -130,7 +130,7 @@ If running without the Java backend, simply double-click [`SmartWaterDistributio
 
 ---
 
-## 🔑 4. Demonstration Credentials
+##  4. Demonstration Credentials
 
 | Role | Username | Password | Target Portal |
 | :--- | :--- | :--- | :--- |
@@ -141,7 +141,7 @@ If running without the Java backend, simply double-click [`SmartWaterDistributio
 
 ---
 
-## 🧠 5. Core Java Data Structures & Why They Are Used
+##  5. Core Java Data Structures & Why They Are Used
 
 ### 1. Adjacency List Graph (`Map<String, List<Pipeline>>`)
 * **Why it's used:** Real-world distribution networks consist of nodes (reservoirs, junctions, demand areas) and directed/undirected edges (pipelines). An adjacency list provides optimal $O(V + E)$ space complexity and enables rapid traversal of outgoing pipes from any reservoir node.
@@ -228,7 +228,7 @@ RESULTS: 10 / 10 TESTS PASSED.
 
 ---
 
-## 🎓 8. Step-by-Step Viva Demonstration Script
+##  8. Step-by-Step Viva Demonstration Script
 
 1. **Start the Backend:** Run `java -cp backend/bin com.smartwater.Main` (or run `Main.java` in your IDE). Show the console output to the faculty, explaining the initialization of the Adjacency List, BFS, PriorityQueue, and ArrayDeque.
 2. **Access the Website:** Open `http://localhost:8080/`. Point out the **`🟢 Java Backend Active (Port 8080)`** badge in the header, demonstrating that `fetch()` is communicating with the Java server.
@@ -239,7 +239,7 @@ RESULTS: 10 / 10 TESTS PASSED.
    * Explain to the faculty: *"Our BFS traversal in `findReachableAreasBFS()` started from active reservoirs and discovered that no working path reaches Area 4."*
 4. **Show Priority Allocation (PriorityQueue):**
    * Go to **Water Allocation**.
-   * Click **🚀 Run Water Allocation Algorithm**.
+   * Click ** Run Water Allocation Algorithm**.
    * Note that Area 2 (*City Care Hospital - Critical*) and Area 1 (*High*) are fully allocated first.
    * Note that Area 4 receives **0 L** because it is disconnected.
 5. **Demonstrate Multi-Reservoir Switching (Failover):**
@@ -247,8 +247,8 @@ RESULTS: 10 / 10 TESTS PASSED.
 6. **Process the FIFO Maintenance Queue (`ArrayDeque`):**
    * Go to **Maintenance Queue (FIFO)**.
    * Point out `MNT-301` at position **#1 (FRONT)** of the FIFO queue.
-   * Click **⏩ Process Next in Queue (FIFO Pop)** $\to$ Moves to `In Progress`.
-   * Click **⏩ Process Next in Queue (FIFO Pop)** again $\to$ Marked `Completed`, and pipeline `PL-04` is restored to `Working` condition in the graph!
+   * Click ** Process Next in Queue (FIFO Pop)** $\to$ Moves to `In Progress`.
+   * Click ** Process Next in Queue (FIFO Pop)** again $\to$ Marked `Completed`, and pipeline `PL-04` is restored to `Working` condition in the graph!
 7. **Verify Reconnection & Reallocation:**
    * Return to **Water Network Flow Graph** $\to$ `PL-04` is now green and Area 4 is **Connected**.
    * Return to **Water Allocation** and click **🚀 Run Water Allocation Algorithm** $\to$ Area 4 now receives its full water allocation!
